@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataConfig>
+	<dataSource name="mongod" type="MongoDBDataSource" host="127.0.0.1" port="27017" database="solr" />
+
+	<document>
+		<entity name="test" 
+			processor="MongoDBEntityProcessor" 
+			rootEntity="true"
+			dataSource="mongod" 
+			collection="publicdoc" 
+			query="{}"
+			deltaImportQuery="{docid:'${dih.delta.docid}'}"
+			deltaQuery="{lastEditTime:{ $gt:{ '$date' : '${dih.last_index_time}'}}}}">
+			<field column="docid" name="id" />
+			<field column="title" name="title" />
+			<field column="content" name="content" />
+			<field column="url" name="url" />
+			<field column="lastEditTime" name="last_modified" />
+		</entity>
+	</document>
+	<propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+		type="SimplePropertiesWriter" />
+</dataConfig>
